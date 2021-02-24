@@ -1,5 +1,6 @@
 import sys
 import sqlite3
+import os
 from datetime import datetime, timedelta
 
 # from PyQt5 import uic
@@ -11,6 +12,17 @@ from ui import main_widget
 from ui import info_dialog, warning_dialog
 from ui import edit_group_dialog, edit_task_dialog, add_many_tasks_dialog, add_week_day_dialog
 from ui import show_task_dialog
+
+
+def resource_path(relative_path):
+    """Получить абсолютный путь"""
+    try:
+        # если скомпилирован .exe файл
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 
 class WarningDialog(QDialog, warning_dialog.Ui_Dialog):
@@ -864,7 +876,7 @@ def except_hook(cls, exception, traceback):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon('icon.ico'))
+    app.setWindowIcon(QIcon(resource_path('icon.ico')))
     ex = MainWidget()
     ex.show()
     sys.excepthook = except_hook
